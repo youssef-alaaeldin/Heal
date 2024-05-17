@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B7EA9972BF7D8E800F00963 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7EA9962BF7D8E800F00963 /* Color.swift */; };
 		0BB3BF3D2BF7B2D8003B7046 /* HealApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB3BF3C2BF7B2D8003B7046 /* HealApp.swift */; };
 		0BB3BF3F2BF7B2D8003B7046 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB3BF3E2BF7B2D8003B7046 /* ContentView.swift */; };
 		0BB3BF412BF7B2D9003B7046 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BB3BF402BF7B2D9003B7046 /* Assets.xcassets */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B7EA9962BF7D8E800F00963 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		0BB3BF392BF7B2D8003B7046 /* Heal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Heal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BB3BF3C2BF7B2D8003B7046 /* HealApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealApp.swift; sourceTree = "<group>"; };
 		0BB3BF3E2BF7B2D8003B7046 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				0BB3BF572BF7C74A003B7046 /* CustomTF.swift */,
+				0B7EA9962BF7D8E800F00963 /* Color.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -194,6 +197,7 @@
 				0BB3BF4E2BF7B59E003B7046 /* RegisterView.swift in Sources */,
 				0BB3BF3F2BF7B2D8003B7046 /* ContentView.swift in Sources */,
 				0BB3BF582BF7C74A003B7046 /* CustomTF.swift in Sources */,
+				0B7EA9972BF7D8E800F00963 /* Color.swift in Sources */,
 				0BB3BF3D2BF7B2D8003B7046 /* HealApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -15,11 +15,13 @@ struct CustomTF: View {
     
     var body: some View {
         
-        VStack(alignment: .leading){
+        VStack(alignment: .leading, spacing: 0){
             if isPassword {
                 SecureField(hint, text: $value)
             } else {
                 TextField(hint, text: $value)
+                    .font(.custom("Lato-Regular", size: 10))
+                    .padding(.top, 10)
             }
             
             ZStack {
@@ -30,6 +32,7 @@ struct CustomTF: View {
             .frame(height: 2)
             
         }
+        
         
         
         

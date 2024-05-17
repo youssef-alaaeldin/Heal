@@ -11,7 +11,8 @@ import SwiftUI
 struct HealApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+//            ContentView()
+            RegisterView()
         }
     }
 }
