@@ -18,6 +18,7 @@
 
 /* Begin PBXFileReference section */
 		0B7EA9962BF7D8E800F00963 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		0B7EA9982BF92E0F00F00963 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		0BB3BF392BF7B2D8003B7046 /* Heal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Heal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BB3BF3C2BF7B2D8003B7046 /* HealApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealApp.swift; sourceTree = "<group>"; };
 		0BB3BF3E2BF7B2D8003B7046 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -61,6 +62,7 @@
 		0BB3BF3B2BF7B2D8003B7046 /* Heal */ = {
 			isa = PBXGroup;
 			children = (
+				0B7EA9982BF92E0F00F00963 /* Info.plist */,
 				0BB3BF562BF7C73B003B7046 /* Components */,
 				0BB3BF512BF7C19E003B7046 /* Fonts */,
 				0BB3BF4C2BF7B58B003B7046 /* Model */,
@@ -335,6 +337,7 @@
 				DEVELOPMENT_TEAM = 842ALSJDA7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Heal/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -364,6 +367,7 @@
 				DEVELOPMENT_TEAM = 842ALSJDA7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Heal/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
