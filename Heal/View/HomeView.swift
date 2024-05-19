@@ -8,34 +8,59 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    @State private var showMenu = false
     var body: some View {
         
-        ScrollView {
-            VStack(alignment: .leading) {
-                HStack(alignment: .top) {
-                    VStack(alignment: .leading, spacing: 20) {
-                        Image(systemName: "slider.horizontal.3")
-                        
-                        Text("Hey Emily,")
-                            .font(.system(size: 46))
-                            .bold()
-                    }
-                    Spacer()
-                    Image(systemName: "bell")
-                }
-                .font(.system(size: 25))
-                .padding()
-                
-                buttons
-                
+        ZStack {
+            if showMenu {
+                SideMenuView(showMenu: $showMenu)
+                    .transition(.move(edge: .top))
+                    .padding(.bottom, 300)
+                    
             }
             
-            SleepingAnalysisView()
-            
-            Spacer()
+            ScrollView {
+                
+                VStack(alignment: .leading) {
+                    HStack(alignment: .top) {
+                        
+                        VStack(alignment: .leading, spacing: 20) {
+                            
+                            
+                            Button {
+                                withAnimation {
+                                    showMenu.toggle()
+                                }
+                            } label: {
+                                Image(systemName: "slider.horizontal.3")
+                            }
+                            .buttonStyle(.plain)
+
+                           
+                            Text("Hey Emily,")
+                                .font(.system(size: 46))
+                                .bold()
+                        }
+                        Spacer()
+                        Image(systemName: "bell")
+                    }
+                    .font(.system(size: 25))
+                    .padding()
+                    
+                    buttons
+                    
+                }
+                
+                SleepingAnalysisView()
+                
+                Spacer()
+                
+            }
+            .background( showMenu ? .black.opacity(0.3) : .white)
         }
-        
     }
+        
     
     
     

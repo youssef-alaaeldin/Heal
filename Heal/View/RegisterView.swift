@@ -15,6 +15,8 @@ struct RegisterView: View {
     
     @State private var isSignInScreen = false
     
+    @EnvironmentObject private var coordinator: Coordinator
+    
     var body: some View {
         ZStack {
             
@@ -97,7 +99,8 @@ struct RegisterView: View {
     
     var button: some View {
         Button(action: {
-            
+//            coordinator.push(.dashboard)
+            coordinator.present(fullScreenCover: .home)
         }, label: {
             Text(isSignInScreen ? "Sign In" : "Continue")
                 .font(.custom("Lato-Regular", size: 25))

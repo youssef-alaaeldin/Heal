@@ -13,7 +13,7 @@ struct HealApp: App {
         WindowGroup {
 //            ContentView()
 //            RegisterView()
-            HomeView()
+           CoordinatorView()
         }
     }
 }
