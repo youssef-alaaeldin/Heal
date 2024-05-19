@@ -12,6 +12,11 @@ enum Colors: String {
     case fontGray
     case buttonColor
     
+    case startColor
+    case endColor
+    
+    case progressColor
+    
     func color() -> Color {
         return Color(self.rawValue)
     }
