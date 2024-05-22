@@ -72,7 +72,7 @@ class Coordinator: ObservableObject {
     func build(fullScreenCover: FullScreenCover) -> some View {
         switch fullScreenCover {
         case .home:
-            DashboardView()
+            HomeView()
         }
     }
 }

@@ -14,8 +14,10 @@ struct HomeView: View {
         
         ZStack(alignment: .topLeading) {
             
+            
             NavigationStack {
                 VStack {
+                    
                     TabView(selection: $selectedTab) {
                         DashboardView()
                             .tag(Tab.Dashboard)

@@ -18,49 +18,51 @@ struct RegisterView: View {
     @EnvironmentObject private var coordinator: Coordinator
     
     var body: some View {
-        ZStack {
-            
+        ScrollView {
+            ZStack {
+                
                 eclipses
                 bluredRectangle
-            
-            VStack (alignment: .leading, spacing: 25) {
-                Text(isSignInScreen ? "Sign In" : "Sign Up")
-                    .font(.custom("Lato-Reuglar", size: 30))
-                    .foregroundColor(.primary)
-                    .padding(.top, 60)
                 
-                if !isSignInScreen {
-                    CustomTF(value: $fullName , hint: "Full Name")
+                VStack (alignment: .leading, spacing: 25) {
+                    Text(isSignInScreen ? "Sign In" : "Sign Up")
+                        .font(.custom("Lato-Reuglar", size: 30))
+                        .foregroundColor(.primary)
+                        .padding(.top, 60)
                     
-                }
-                CustomTF(value: $email , hint: "Email")
-                CustomTF(value: $password , hint: "Password")
-                
-                if !isSignInScreen {
-                    signUpPolicty
-                }
-                
-                VStack (alignment: .center) {
-                    button
-                    HStack(spacing: 0) {
-                        Text( !isSignInScreen ? "Joined us before? " : "Didn't joined yet? ")
-                            .font(.custom("Lato", size: 10))
-                            .foregroundStyle(Colors.fontGray.color())
-                        Button {
-                            isSignInScreen.toggle()
-                        } label: {
-                            
-                            Text(isSignInScreen ? "Sign Up" : "Sign In")
+                    if !isSignInScreen {
+                        CustomTF(value: $fullName , hint: "Full Name")
+                        
+                    }
+                    CustomTF(value: $email , hint: "Email")
+                    CustomTF(value: $password , hint: "Password")
+                    
+                    if !isSignInScreen {
+                        signUpPolicty
+                    }
+                    
+                    VStack (alignment: .center) {
+                        button
+                        HStack(spacing: 0) {
+                            Text( !isSignInScreen ? "Joined us before? " : "Didn't joined yet? ")
                                 .font(.custom("Lato", size: 10))
-                                .foregroundStyle(Colors.fontGreen.color())
+                                .foregroundStyle(Colors.fontGray.color())
+                            Button {
+                                isSignInScreen.toggle()
+                            } label: {
+                                
+                                Text(isSignInScreen ? "Sign Up" : "Sign In")
+                                    .font(.custom("Lato", size: 10))
+                                    .foregroundStyle(Colors.fontGreen.color())
+                            }
                         }
                     }
+                    
                 }
-                
+                .padding(.horizontal, 50)
+                .padding(.top, 150)
+                .animation(.easeIn(duration: 0.2), value: isSignInScreen)
             }
-            .padding(.horizontal, 50)
-            .padding(.top, 150)
-            .animation(.easeIn(duration: 0.2), value: isSignInScreen)
         }
     }
     

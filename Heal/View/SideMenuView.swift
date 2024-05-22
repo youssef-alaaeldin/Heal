@@ -21,9 +21,14 @@ struct SideMenuView: View {
     @Binding var selectedTab: Tab
     
     var body: some View {
+        
+        GeometryReader { geomtry in
+       
         ZStack(alignment: .topLeading) {
-            Color.black.opacity(showMenu ? 0.5 : 0)
+            Color.clear
                 .ignoresSafeArea()
+//            Color.black.opacity(showMenu ? 0.5 : 0)
+//                .ignoresSafeArea()
             
             HStack {
                 VStack(alignment: .leading, spacing: 10) {
@@ -53,7 +58,9 @@ struct SideMenuView: View {
                                     .onTapGesture {
                                         withAnimation {
                                             selectedTab = tab
+                                            showMenu = false
                                         }
+                                        
                                     }
                             }
                         }
@@ -73,6 +80,8 @@ struct SideMenuView: View {
             
             
             
+            }
+//            .frame(width: geomtry.size.width / 2, height: geomtry.size.height )
         }
         
     }

@@ -36,6 +36,16 @@ struct DashboardView: View {
             
             Spacer()
             
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], content: {
+                
+                ForEach(0..<4) { _ in
+                    
+                    CardView().padding()
+                    
+                }
+            })
+            .padding()
+            
         }
         .background( showMenu ? .black.opacity(0.3) : .white)
         
