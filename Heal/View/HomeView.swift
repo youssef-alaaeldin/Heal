@@ -24,6 +24,7 @@ struct HomeView: View {
                             .padding(.top, 60)
                         ProfileView()
                             .tag(Tab.Profile)
+//                            .padding(100)
     //                    RewardsView()
     //                        .tag(Tab.Rewards)
                     }

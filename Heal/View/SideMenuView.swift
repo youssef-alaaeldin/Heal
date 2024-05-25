@@ -58,7 +58,6 @@ struct SideMenuView: View {
                                     .onTapGesture {
                                         withAnimation {
                                             selectedTab = tab
-                                            showMenu = false
                                         }
                                         
                                     }

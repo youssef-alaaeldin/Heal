@@ -17,7 +17,7 @@ struct DashboardView: View {
         
         ScrollView {
             
-            VStack(alignment: .leading) {
+            VStack(alignment: .center) {
                 HStack {
                     Text("Hey Emily,")
                         .font(.system(size: 46))
@@ -57,16 +57,16 @@ struct DashboardView: View {
     
     var buttons : some View {
         
-        HStack(alignment: .center, spacing: 45) {
+        HStack(alignment: .center) {
             CustomButton(title: "Daily") {
                 //Button Action
             }
-            
+            Spacer()
             
             CustomButton(title: "Weekly") {
                 //Button Action
             }
-            
+            Spacer()
             CustomButton(title: "Monthly") {
                 //Button Action
             }

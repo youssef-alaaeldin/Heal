@@ -19,6 +19,7 @@ enum AppImage: String {
     case calories
     case yogaGirl
     case runningGirl
+    case profilePicGirl
     
     func image() -> Image {
         return Image(self.rawValue)
