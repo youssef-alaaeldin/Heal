@@ -8,27 +8,29 @@
 import SwiftUI
 
 struct CardView: View {
+    
+    @State var healthDataModel: HealthData
     var body: some View {
-        
         ZStack {
             
             GeometryReader { geometry in
                 
                 ZStack(alignment: .leading) {
                     
-                    AppImage.runningGirl.image()
+                    healthDataModel.type.image
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: geometry.size.width, height: geometry.size.height)
-                        .padding(.leading, 30)
+                        .padding(.leading, 40)
                     
                     VStack(alignment: .leading, spacing: 0) {
                         HStack(spacing: 0) {
-                            Text("350")
+                        
+                            Text(healthDataModel.value)
                                 .font(.title)
                                 .bold()
                             
-                            Text("kcal")
+                            Text(healthDataModel.type.unit)
                                 .font(.system(size: 13))
                                 .bold()
                         }
@@ -51,6 +53,6 @@ struct CardView: View {
     }
 }
 
-#Preview {
-    CardView()
-}
+//#Preview {
+//    CardView()
+//}

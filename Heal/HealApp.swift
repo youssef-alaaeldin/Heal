@@ -9,11 +9,13 @@ import SwiftUI
 
 @main
 struct HealApp: App {
+    @StateObject var manager = HealthManager()
     var body: some Scene {
         WindowGroup {
 //            ContentView()
 //            RegisterView()
            CoordinatorView()
+                .environmentObject(manager)
         }
     }
 }

@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @State var showMenu = false
     @State var selectedTab : Tab = .Dashboard
+    @EnvironmentObject var manager: HealthManager
     var body: some View {
         
         ZStack(alignment: .topLeading) {
@@ -22,6 +23,7 @@ struct HomeView: View {
                         DashboardView()
                             .tag(Tab.Dashboard)
                             .padding(.top, 60)
+                            .environmentObject(manager)
                         ProfileView()
                             .tag(Tab.Profile)
 //                            .padding(100)

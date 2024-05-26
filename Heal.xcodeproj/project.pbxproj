@@ -25,6 +25,8 @@
 		0BB3BF442BF7B2D9003B7046 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BB3BF432BF7B2D9003B7046 /* Preview Assets.xcassets */; };
 		0BB3BF4E2BF7B59E003B7046 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB3BF4D2BF7B59E003B7046 /* RegisterView.swift */; };
 		0BB3BF582BF7C74A003B7046 /* CustomTF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB3BF572BF7C74A003B7046 /* CustomTF.swift */; };
+		0BF5AF712C03676300105B9E /* HealthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF5AF702C03676300105B9E /* HealthData.swift */; };
+		0BF5AF732C036B4B00105B9E /* HelathManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF5AF722C036B4B00105B9E /* HelathManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +54,9 @@
 		0BB3BF542BF7C1AD003B7046 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Bold.ttf"; sourceTree = "<group>"; };
 		0BB3BF552BF7C1AD003B7046 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		0BB3BF572BF7C74A003B7046 /* CustomTF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTF.swift; sourceTree = "<group>"; };
+		0BF5AF6F2C03652E00105B9E /* Heal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Heal.entitlements; sourceTree = "<group>"; };
+		0BF5AF702C03676300105B9E /* HealthData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthData.swift; sourceTree = "<group>"; };
+		0BF5AF722C036B4B00105B9E /* HelathManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelathManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +89,7 @@
 		0BB3BF3B2BF7B2D8003B7046 /* Heal */ = {
 			isa = PBXGroup;
 			children = (
+				0BF5AF6F2C03652E00105B9E /* Heal.entitlements */,
 				0B7EA9982BF92E0F00F00963 /* Info.plist */,
 				0BB3BF562BF7C73B003B7046 /* Components */,
 				0BB3BF512BF7C19E003B7046 /* Fonts */,
@@ -125,6 +131,7 @@
 		0BB3BF4B2BF7B585003B7046 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				0BF5AF722C036B4B00105B9E /* HelathManager.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -132,6 +139,7 @@
 		0BB3BF4C2BF7B58B003B7046 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0BF5AF702C03676300105B9E /* HealthData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -231,10 +239,12 @@
 			files = (
 				0BB3BF4E2BF7B59E003B7046 /* RegisterView.swift in Sources */,
 				0B7EA9AE2BFD5CDC00F00963 /* HomeView.swift in Sources */,
+				0BF5AF712C03676300105B9E /* HealthData.swift in Sources */,
 				0B7EA9A02BFA24EB00F00963 /* CircularProgressView.swift in Sources */,
 				0B7EA99C2BFA040100F00963 /* DashboardView.swift in Sources */,
 				0B7EA9AC2BFA914E00F00963 /* SideMenuView.swift in Sources */,
 				0B7EA99A2BF9836D00F00963 /* AppImage.swift in Sources */,
+				0BF5AF732C036B4B00105B9E /* HelathManager.swift in Sources */,
 				0BB3BF3F2BF7B2D8003B7046 /* ContentView.swift in Sources */,
 				0B7EA9B02BFD665500F00963 /* ProfileView.swift in Sources */,
 				0B7EA99E2BFA187400F00963 /* CustomButton.swift in Sources */,
@@ -375,6 +385,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Heal/Heal.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Heal/Preview Content\"";
@@ -382,6 +393,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Heal/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow access to join all the features of our application";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -405,6 +417,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Heal/Heal.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Heal/Preview Content\"";
@@ -412,6 +425,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Heal/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow access to join all the features of our application";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

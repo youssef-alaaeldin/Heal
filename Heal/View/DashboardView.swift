@@ -12,6 +12,8 @@ struct DashboardView: View {
     @State var showMenu = false
     
     @State var selectedTab : Tab = .Dashboard
+    
+    @EnvironmentObject var manager: HealthManager
     var body: some View {
         
         
@@ -38,9 +40,8 @@ struct DashboardView: View {
             
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], content: {
                 
-                ForEach(0..<4) { _ in
-                    
-                    CardView().padding()
+                ForEach(manager.healthData.sorted(by: { $0.value.id  < $1.value.id }), id: \.key) { item in
+                    CardView(healthDataModel: item.value)
                     
                 }
             })
@@ -48,6 +49,9 @@ struct DashboardView: View {
             
         }
         .background( showMenu ? .black.opacity(0.3) : .white)
+//        .onAppear {
+//            manager.fetchTodaySteps()
+//        }
         
         
     }
