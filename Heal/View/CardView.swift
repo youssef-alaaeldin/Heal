@@ -35,7 +35,7 @@ struct CardView: View {
                                 .bold()
                         }
                         
-                        Text("Burned")
+                        Text(healthDataModel.type.subtitle)
                             .font(.system(size: 13, weight: .thin))
                     }
                     .padding(.bottom, 60)

@@ -20,6 +20,7 @@ enum HealthDataType {
     case steps
     case distance
     case calories
+    case heartRate
     
     var image: Image {
         switch self {
@@ -27,10 +28,12 @@ enum HealthDataType {
             return AppImage.runningGirl.image()
         case .distance:
             // will be replaced with walking girl
-            return AppImage.runningGirl.image()
+            return AppImage.standingGirl.image()
             
         case .calories:
             return AppImage.gymGirl.image()
+        case .heartRate:
+            return AppImage.heart.image()
         }
     }
     
@@ -42,6 +45,21 @@ enum HealthDataType {
             return "Km"
         case .calories:
             return "kcal"
+        case .heartRate:
+            return "bpm"
+        }
+    }
+    
+    var subtitle: String {
+        switch self {
+        case .steps:
+            return ""
+        case .distance:
+            return "Walked"
+        case .calories:
+            return "Burned"
+        case .heartRate:
+            return "Avg heart rate"
         }
     }
 }
