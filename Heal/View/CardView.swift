@@ -35,6 +35,7 @@ struct CardView: View {
                                 .bold()
                         }
                         
+                        
                         Text(healthDataModel.type.subtitle)
                             .font(.system(size: 13, weight: .thin))
                     }

@@ -8,6 +8,9 @@
 import Foundation
 import HealthKit
 
+
+
+
 class HealthManager: ObservableObject {
     
     private let healthStore = HKHealthStore()
@@ -31,20 +34,53 @@ class HealthManager: ObservableObject {
         
         healthStore.requestAuthorization(toShare: nil, read: readDataTypes) { [weak self] success, error in
             if success {
-                self?.fetchTodaySteps()
-                self?.fetchTodayDistance()
-                self?.fetchTodayCalories()
-                self?.fetchHeartRate()
+                self?.fetchTodayData()
+                self?.fetchWeeklyData()
+                self?.fetchMonthlyData()
             } else {
                 print("Authorization failed with error: \(String(describing: error))")
             }
         }
     }
     
-     func fetchTodaySteps() {
+    
+    func fetchTodayData() {
+        fetchSteps(startDate: .startOfToday, endDate: Date(), key: "DailySteps")
+        fetchCalories(startDate: .startOfToday, endDate: Date(), key: "DailyCalories")
+        fetchDistance(startDate: .startOfToday, endDate: Date(), key: "DailyDistance")
+        fetchHeartRate(startDate: .startOfToday, endDate: Date(), key: "DailyHeartRate")
+//
+//        DispatchQueue.main.async {
+//            self.healthData = self.healthData.filter { $0.key.contains("today") }
+//        }
+    }
+    
+    func fetchWeeklyData() {
+        fetchSteps(startDate: .startOfWeek, endDate: Date(), key: "WeeklySteps")
+        fetchCalories(startDate: .startOfWeek, endDate: Date(), key: "WeeklyCalories")
+        fetchDistance(startDate: .startOfWeek, endDate: Date(), key: "WeeklyDistance")
+        fetchHeartRate(startDate: .startOfToday, endDate: Date(), key: "WeeklyHeartRate")
+        
+//        DispatchQueue.main.async {
+//            self.healthData = self.healthData.filter { $0.key.contains("weekly") }
+//        }
+    }
+    
+    func fetchMonthlyData() {
+        fetchSteps(startDate: .startOfMonth, endDate: Date(), key: "MonthlySteps")
+        fetchCalories(startDate: .startOfMonth, endDate: Date(), key: "MonthlyCalories")
+        fetchDistance(startDate: .startOfMonth, endDate: Date(), key: "MonthlyDistance")
+        fetchHeartRate(startDate: .startOfToday, endDate: Date(), key: "MonthlyHeartRate")
+        
+//        DispatchQueue.main.async {
+//            self.healthData = self.healthData.filter { $0.key.contains("monthly") }
+//        }
+    }
+    
+     func fetchSteps(startDate: Date, endDate: Date, key: String) {
         
         let stepCountType = HKQuantityType.quantityType(forIdentifier: .stepCount)!
-        let predicate = HKQuery.predicateForSamples(withStart: .startOfToday, end: Date())
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate)
         
          let query = HKStatisticsQuery(quantityType: stepCountType , quantitySamplePredicate: predicate) { _, results, error in
             guard let quantity = results?.sumQuantity(), error == nil else {
@@ -53,18 +89,18 @@ class HealthManager: ObservableObject {
             }
             
              let stepCount = quantity.doubleValue(for: .count())
-             let data = HealthData(id: 0, type: .steps, value: "\(stepCount.formatedString())")
+             let data = HealthData(id: UUID(), type: .steps, value: "\(stepCount.formatedString())")
              DispatchQueue.main.async {
-                 self.healthData["todaySteps"] = data
+                 self.healthData[key] = data
              }
             
         }
         healthStore.execute(query)
     }
     
-    func fetchTodayCalories() {
+    func fetchCalories(startDate: Date, endDate: Date, key: String) {
         let calories = HKQuantityType(.activeEnergyBurned)
-        let predicate = HKQuery.predicateForSamples(withStart: .startOfToday, end: Date())
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate)
         let query = HKStatisticsQuery(quantityType: calories, quantitySamplePredicate: predicate) { _, result, error in
             
             guard let quantity = result?.sumQuantity(), error == nil else {
@@ -73,21 +109,21 @@ class HealthManager: ObservableObject {
             }
             
             let coloriesBurned = quantity.doubleValue(for: .kilocalorie())
-            let data = HealthData(id: 1, type: .calories, value: "\(coloriesBurned.formatedString())")
-            
-            print(coloriesBurned)
+            let data = HealthData(id: UUID(), type: .calories, value: "\(Int(coloriesBurned))")
             
             DispatchQueue.main.async  {
-                self.healthData["todayCalories"] = data
+                self.healthData[key] = data
             }
+            
+            
             
         }
         healthStore.execute(query)
     }
     
-    func fetchTodayDistance() {
+    func fetchDistance(startDate: Date, endDate: Date, key: String) {
             let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)!
-        let predicate = HKQuery.predicateForSamples(withStart: .startOfToday, end: Date(), options: .strictStartDate)
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictStartDate)
             
             let query = HKStatisticsQuery(quantityType: distanceType, quantitySamplePredicate: predicate) { _, result, error in
                 guard let quantity = result?.sumQuantity(), error == nil else {
@@ -96,10 +132,12 @@ class HealthManager: ObservableObject {
                 }
                 
                 let distance = quantity.doubleValue(for: .meter())
-                let data = HealthData(id: 2, type: .distance, value: "\(distance.formattedKilometers())")
+                let data = HealthData(id: UUID(), type: .distance, value: "\(distance.formattedKilometers())")
+                
+                print(distance.formattedKilometers())
                 
                 DispatchQueue.main.async {
-                    self.healthData["todayDistance"] = data
+                    self.healthData[key] = data
                 }
                 
             }
@@ -107,9 +145,9 @@ class HealthManager: ObservableObject {
             healthStore.execute(query)
         }
     
-    func fetchHeartRate() {
+    func fetchHeartRate(startDate: Date, endDate: Date, key: String) {
         let heartRate = HKQuantityType(.heartRate)
-        let predicate = HKQuery.predicateForSamples(withStart: .startOfToday, end: Date())
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate)
         let sortDiscr = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
         let query = HKSampleQuery(sampleType: heartRate, predicate: predicate, limit: Int(HKObjectQueryNoLimit), sortDescriptors: [sortDiscr]) { _, result, error in
             guard let quantity = result,  error == nil else {
@@ -125,9 +163,9 @@ class HealthManager: ObservableObject {
                 let unit = HKUnit(from: "count/min")
                 let latestHeartRate = data.quantity.doubleValue(for: unit)
                 
-                let fetchedData = HealthData(id: 3, type: .heartRate, value: "\(latestHeartRate.formattedCalories())")
+                let fetchedData = HealthData(id: UUID(), type: .heartRate, value: "\(Int(latestHeartRate))")
                 DispatchQueue.main.async {
-                    self.healthData["avgHeartRate"] = fetchedData
+                    self.healthData[key] = fetchedData
                 }
             }
 //            guard let data = quantity[0] as? HKQuantitySample else {
@@ -144,9 +182,10 @@ class HealthManager: ObservableObject {
 
 extension Double {
     
-    func formattedCalories() -> String{
+    func formattedCalories() -> String {
         String(format: "%.2f", self)
     }
+    
     /// Converts the distance in meters to kilometers and returns it as a formatted string.
     func formattedKilometers() -> String {
         let kilometers = self / 1000
@@ -165,5 +204,14 @@ extension Double {
 extension Date {
     static var startOfToday: Date {
         Calendar.current.startOfDay(for: Date())
+    }
+    
+    static var startOfWeek: Date {
+        Calendar.current.date(from: Calendar.current.dateComponents([.yearForWeekOfYear, .weekOfYear], from: Date()))!
+    }
+    
+    static var startOfMonth: Date {
+        let components = Calendar.current.dateComponents([.year, .month], from: Date())
+        return Calendar.current.date(from: components)!
     }
 }

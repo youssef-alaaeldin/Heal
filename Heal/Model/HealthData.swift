@@ -8,10 +8,11 @@
 import SwiftUI
 
 
-struct HealthData {
-    let id: Int
+struct HealthData: Equatable, Identifiable {
+    let id: UUID
     let type: HealthDataType
     let value: String
+//    let timePeriod: HealthPeriod
 //    let date: Date
 }
 
