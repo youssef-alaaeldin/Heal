@@ -15,13 +15,14 @@ struct DashboardView: View {
     @State var selectedPeriod : HealthPeriod = .Daily
     
     @EnvironmentObject var manager: HealthManager
+    @EnvironmentObject var authViewModel: AuthViewModel
     var body: some View {
         
         
         ScrollView {
             VStack(alignment: .center) {
                 HStack {
-                    Text("Hey Emily,")
+                    Text("Hey \(authViewModel.currentUser?.fullName ?? ""),")
                         .font(.system(size: 46))
                         .bold()
                     
@@ -82,6 +83,7 @@ struct DashboardView: View {
     }
     
     private func changePeriod(to period: HealthPeriod) {
+        print(manager.healthData)
             withAnimation {
                 selectedPeriod = period
             }

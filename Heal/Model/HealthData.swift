@@ -29,6 +29,8 @@ enum HealthDataType {
     case bloodType
     case biologicalSex
     
+    
+    
     var image: Image {
         switch self {
         case .steps:

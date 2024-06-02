@@ -20,7 +20,6 @@ struct CustomTF: View {
                 SecureField(hint, text: $value)
             } else {
                 TextField(hint, text: $value)
-                    .font(.custom("Lato-Regular", size: 10))
                     .padding(.top, 10)
             }
             

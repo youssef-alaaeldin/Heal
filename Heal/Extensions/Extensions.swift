@@ -30,7 +30,7 @@ extension Date {
 
 extension Double {
     
-    func formattedCalories() -> String {
+    func formattedTwoDecimal() -> String {
         String(format: "%.2f", self)
     }
     

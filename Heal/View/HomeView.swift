@@ -11,6 +11,7 @@ struct HomeView: View {
     @State var showMenu = false
     @State var selectedTab : Tab = .Dashboard
     @EnvironmentObject var manager: HealthManager
+    @EnvironmentObject var authViewModel : AuthViewModel
     var body: some View {
         
         ZStack(alignment: .topLeading) {

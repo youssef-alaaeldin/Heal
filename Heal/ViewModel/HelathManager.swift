@@ -42,11 +42,11 @@ class HealthManager: ObservableObject {
             stepCountType,
             distanceType,
             calories,
-            heartRate
-//            heightType,
-//            bodyMassType,
-//            HKObjectType.characteristicType(forIdentifier: .bloodType)!,
-//            HKObjectType.characteristicType(forIdentifier: .biologicalSex)!
+            heartRate,
+            heightType,
+            bodyMassType,
+            HKObjectType.characteristicType(forIdentifier: .bloodType)!,
+            HKObjectType.characteristicType(forIdentifier: .biologicalSex)!
         ]
         
         healthStore.requestAuthorization(toShare: nil, read: readDataTypes) { [weak self] success, error in
@@ -54,7 +54,7 @@ class HealthManager: ObservableObject {
                 self?.fetchTodayData()
                 self?.fetchWeeklyData()
                 self?.fetchMonthlyData()
-//                self?.fetchUserCharacteristics()
+                self?.fetchUserCharacteristics()
             } else {
                 print("Authorization failed with error: \(String(describing: error))")
             }
@@ -217,6 +217,7 @@ class HealthManager: ObservableObject {
                     if let height = self.healthData["Height"]?.value, let heightValue = Double(height) {
                         let bmiValue = weight / (heightValue * heightValue)
                         let bmiData = HealthData(id: UUID(), type: .bmi, value: "\(bmiValue.formatedString())")
+                        print(bmiValue)
                         DispatchQueue.main.async {
                             self.healthData["BMI"] = bmiData
                         }

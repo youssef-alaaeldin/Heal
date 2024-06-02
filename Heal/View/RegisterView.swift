@@ -12,58 +12,77 @@ struct RegisterView: View {
     @State var fullName: String = ""
     @State var email: String = ""
     @State var password: String = ""
+    @FocusState private var nameIsFocused: Bool
     
     @State private var isSignInScreen = false
     
     @EnvironmentObject private var coordinator: Coordinator
+    @EnvironmentObject private var authViewModel : AuthViewModel
+    
     
     var body: some View {
-        ScrollView {
-            ZStack {
+        if authViewModel.userSession != nil {
+            HomeView()
+        } else {
+            ScrollView {
                 
-                eclipses
-                bluredRectangle
-                
-                VStack (alignment: .leading, spacing: 25) {
-                    Text(isSignInScreen ? "Sign In" : "Sign Up")
-                        .font(.custom("Lato-Reuglar", size: 30))
-                        .foregroundColor(.primary)
-                        .padding(.top, 60)
+                ZStack {
                     
-                    if !isSignInScreen {
-                        CustomTF(value: $fullName , hint: "Full Name")
-                        
-                    }
-                    CustomTF(value: $email , hint: "Email")
-                    CustomTF(value: $password , hint: "Password")
-                    
-                    if !isSignInScreen {
-                        signUpPolicty
-                    }
-                    
-                    VStack (alignment: .center) {
-                        button
-                        HStack(spacing: 0) {
-                            Text( !isSignInScreen ? "Joined us before? " : "Didn't joined yet? ")
-                                .font(.custom("Lato", size: 10))
-                                .foregroundStyle(Colors.fontGray.color())
-                            Button {
-                                isSignInScreen.toggle()
-                            } label: {
-                                
-                                Text(isSignInScreen ? "Sign Up" : "Sign In")
-                                    .font(.custom("Lato", size: 10))
-                                    .foregroundStyle(Colors.fontGreen.color())
-                            }
+                    eclipses
+                        .onTapGesture {
+                            nameIsFocused = false
                         }
-                    }
+                    bluredRectangle
+                        .onTapGesture {
+                            nameIsFocused = false
+                        }
+                    content
                     
                 }
-                .padding(.horizontal, 50)
-                .padding(.top, 150)
-                .animation(.easeIn(duration: 0.2), value: isSignInScreen)
+                
             }
         }
+    }
+    
+    var content: some View {
+        VStack (alignment: .leading, spacing: 25) {
+            Text(isSignInScreen ? "Sign In" : "Sign Up")
+                .font(.custom("Lato-Reuglar", size: 30))
+                .foregroundColor(.primary)
+                .padding(.top, 60)
+            
+            if !isSignInScreen {
+                CustomTF(value: $fullName , hint: "Full Name")
+                    .focused($nameIsFocused)
+            }
+            CustomTF(value: $email , hint: "Email").focused($nameIsFocused)
+            CustomTF(value: $password , hint: "Password", isPassword: true).focused($nameIsFocused)
+            
+            if !isSignInScreen {
+                signUpPolicy
+            }
+            
+            VStack (alignment: .center) {
+                button
+                HStack(spacing: 0) {
+                    Text( !isSignInScreen ? "Joined us before? " : "Didn't joined yet? ")
+                        .font(.custom("Lato", size: 10))
+                        .foregroundStyle(Colors.fontGray.color())
+                    Button {
+                        isSignInScreen.toggle()
+                    } label: {
+                        
+                        Text(isSignInScreen ? "Sign Up" : "Sign In")
+                            .font(.custom("Lato", size: 10))
+                            .foregroundStyle(Colors.fontGreen.color())
+                    }
+                }
+            }
+            
+        }
+        .padding(.horizontal, 50)
+        .padding(.top, 150)
+        .animation(.easeIn(duration: 0.2), value: isSignInScreen)
     }
     
     var eclipses : some View {
@@ -80,7 +99,7 @@ struct RegisterView: View {
             }
             .padding()
             .animation(.default, value: isSignInScreen)
-
+            
         }
     }
     
@@ -101,8 +120,24 @@ struct RegisterView: View {
     
     var button: some View {
         Button(action: {
-//            coordinator.push(.dashboard)
-            coordinator.present(fullScreenCover: .home)
+            if !isSignInScreen {
+                // SIGN UP
+                Task {
+                    do {
+                        try await authViewModel.createUser(withEmail: email, password: password, fullName: fullName)
+                        coordinator.present(fullScreenCover: .home)
+                    } catch {
+                        print("Error creating user with error:  \(error.localizedDescription)")
+                    }
+                }
+            }
+            else {
+                // LOGIN
+                Task {
+                    try await authViewModel.signIn(withEmail: email, password: password)
+                }
+            }
+            
         }, label: {
             Text(isSignInScreen ? "Sign In" : "Continue")
                 .font(.custom("Lato-Regular", size: 25))
@@ -113,7 +148,7 @@ struct RegisterView: View {
         .clipShape(RoundedRectangle(cornerRadius: 6))
     }
     
-    var signUpPolicty : some View {
+    var signUpPolicy : some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack (spacing: 0) {
                 Text("By Signing up, You’re agree to our ")
@@ -134,6 +169,8 @@ struct RegisterView: View {
         }
         .padding(.horizontal, 10)
     }
+    
+    
 }
 
 #Preview {

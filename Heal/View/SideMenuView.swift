@@ -20,6 +20,8 @@ struct SideMenuView: View {
     @Binding var showMenu: Bool
     @Binding var selectedTab: Tab
     
+    @EnvironmentObject var authViewModel: AuthViewModel
+    
     var body: some View {
         
         GeometryReader { geomtry in
@@ -58,6 +60,9 @@ struct SideMenuView: View {
                                     .onTapGesture {
                                         withAnimation {
                                             selectedTab = tab
+                                        }
+                                        if tab.rawValue == "Logout" {
+                                            authViewModel.signOut()
                                         }
                                         
                                     }
