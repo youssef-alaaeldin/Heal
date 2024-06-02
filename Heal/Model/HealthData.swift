@@ -23,6 +23,12 @@ enum HealthDataType {
     case calories
     case heartRate
     
+    case height
+    case weight
+    case bmi
+    case bloodType
+    case biologicalSex
+    
     var image: Image {
         switch self {
         case .steps:
@@ -35,6 +41,9 @@ enum HealthDataType {
             return AppImage.gymGirl.image()
         case .heartRate:
             return AppImage.heart.image()
+            
+        default:
+            return AppImage.calories.image()
         }
     }
     
@@ -48,6 +57,9 @@ enum HealthDataType {
             return "kcal"
         case .heartRate:
             return "bpm"
+            
+        default:
+            return ""
         }
     }
     
@@ -61,6 +73,8 @@ enum HealthDataType {
             return "Burned"
         case .heartRate:
             return "Avg heart rate"
+        default:
+            return ""
         }
     }
 }

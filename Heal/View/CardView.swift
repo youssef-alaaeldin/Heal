@@ -26,9 +26,9 @@ struct CardView: View {
                     VStack(alignment: .leading, spacing: 0) {
                         HStack(spacing: 0) {
                         
-                            Text(healthDataModel.value)
-                                .font(.title)
-                                .bold()
+                                Text(healthDataModel.value)
+                                    .font(.title)
+                                    .bold()
                             
                             Text(healthDataModel.type.unit)
                                 .font(.system(size: 13))
@@ -45,9 +45,7 @@ struct CardView: View {
             }
             .frame(width: 177 , height: 154)
         }
-        .background(
-            LinearGradient(colors: [Colors.startColor.color(), Colors.endColor.color()], startPoint: .topLeading, endPoint: .bottomTrailing)
-        )
+        .background(.card)
         .clipShape(RoundedRectangle(cornerRadius: 25))
         
         

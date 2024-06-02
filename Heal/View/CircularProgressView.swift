@@ -44,17 +44,21 @@ struct CircularProgressView: View {
             .onAppear {
                 startAnimation()
             }
+            .onDisappear {
+                animatedProgress = 0.0
+            }
         }
     
     private func startAnimation() {
-        animatedProgress = progress
         animatedTextProgress = 0.0
         
         Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { timer in
             
             if animatedTextProgress < progress {
                 animatedTextProgress += progress / (animationDuration * 100)
+                animatedProgress = progress
             } else {
+               
                 animatedTextProgress = progress
                 timer.invalidate()
             }

@@ -19,6 +19,8 @@
 		0B7EA9AE2BFD5CDC00F00963 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7EA9AD2BFD5CDC00F00963 /* HomeView.swift */; };
 		0B7EA9B02BFD665500F00963 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7EA9AF2BFD665500F00963 /* ProfileView.swift */; };
 		0B7EA9B22BFE096200F00963 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7EA9B12BFE096200F00963 /* CardView.swift */; };
+		0B8596592C0B431300974F37 /* UserInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8596582C0B431300974F37 /* UserInformation.swift */; };
+		0B85965C2C0B43AD00974F37 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B85965B2C0B43AD00974F37 /* Extensions.swift */; };
 		0BB3BF3D2BF7B2D8003B7046 /* HealApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB3BF3C2BF7B2D8003B7046 /* HealApp.swift */; };
 		0BB3BF3F2BF7B2D8003B7046 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB3BF3E2BF7B2D8003B7046 /* ContentView.swift */; };
 		0BB3BF412BF7B2D9003B7046 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BB3BF402BF7B2D9003B7046 /* Assets.xcassets */; };
@@ -43,6 +45,8 @@
 		0B7EA9AD2BFD5CDC00F00963 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		0B7EA9AF2BFD665500F00963 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		0B7EA9B12BFE096200F00963 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		0B8596582C0B431300974F37 /* UserInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInformation.swift; sourceTree = "<group>"; };
+		0B85965B2C0B43AD00974F37 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		0BB3BF392BF7B2D8003B7046 /* Heal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Heal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BB3BF3C2BF7B2D8003B7046 /* HealApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealApp.swift; sourceTree = "<group>"; };
 		0BB3BF3E2BF7B2D8003B7046 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -70,6 +74,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0B85965A2C0B438E00974F37 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				0B85965B2C0B43AD00974F37 /* Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		0BB3BF302BF7B2D8003B7046 = {
 			isa = PBXGroup;
 			children = (
@@ -91,6 +103,7 @@
 			children = (
 				0BF5AF6F2C03652E00105B9E /* Heal.entitlements */,
 				0B7EA9982BF92E0F00F00963 /* Info.plist */,
+				0B85965A2C0B438E00974F37 /* Extensions */,
 				0BB3BF562BF7C73B003B7046 /* Components */,
 				0BB3BF512BF7C19E003B7046 /* Fonts */,
 				0BB3BF4C2BF7B58B003B7046 /* Model */,
@@ -140,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				0BF5AF702C03676300105B9E /* HealthData.swift */,
+				0B8596582C0B431300974F37 /* UserInformation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -239,6 +253,7 @@
 			files = (
 				0BB3BF4E2BF7B59E003B7046 /* RegisterView.swift in Sources */,
 				0B7EA9AE2BFD5CDC00F00963 /* HomeView.swift in Sources */,
+				0B8596592C0B431300974F37 /* UserInformation.swift in Sources */,
 				0BF5AF712C03676300105B9E /* HealthData.swift in Sources */,
 				0B7EA9A02BFA24EB00F00963 /* CircularProgressView.swift in Sources */,
 				0B7EA99C2BFA040100F00963 /* DashboardView.swift in Sources */,
@@ -251,6 +266,7 @@
 				0B7EA9A82BFA8C0300F00963 /* Coordinator.swift in Sources */,
 				0B7EA9AA2BFA8E4E00F00963 /* CoordinatorView.swift in Sources */,
 				0BB3BF582BF7C74A003B7046 /* CustomTF.swift in Sources */,
+				0B85965C2C0B43AD00974F37 /* Extensions.swift in Sources */,
 				0B7EA9972BF7D8E800F00963 /* Color.swift in Sources */,
 				0BB3BF3D2BF7B2D8003B7046 /* HealApp.swift in Sources */,
 				0B7EA9B22BFE096200F00963 /* CardView.swift in Sources */,

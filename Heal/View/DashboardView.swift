@@ -38,17 +38,20 @@ struct DashboardView: View {
             
             Spacer()
             
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], content: {
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())],spacing: 10 ,content: {
                 
                 ForEach(manager.healthData.filter { $0.key.contains(selectedPeriod.rawValue) }.sorted(by: { $0.value.id  < $1.value.id }), id: \.key) { item in
                     CardView(healthDataModel: item.value)
+                        .transition(.opacity)
+                        .animation(.easeInOut(duration: 0.2), value: selectedPeriod)
                 }
+                
                 
             })
             .padding()
             
         }
-        .background( showMenu ? .black.opacity(0.3) : .white)
+        .background( showMenu ? .black.opacity(0.3) : .clear)
         
     }
     
@@ -57,25 +60,19 @@ struct DashboardView: View {
         HStack(alignment: .center) {
             CustomButton(title: "Daily") {
                 //Button Action
-                withAnimation {
-                    selectedPeriod = .Daily
-                }
+                changePeriod(to: .Daily)
             }
             
             Spacer()
             
             CustomButton(title: "Weekly") {
                 //Button Action
-                withAnimation {
-                    selectedPeriod = .Weekly
-                }
+                changePeriod(to: .Weekly)
             }
             Spacer()
             CustomButton(title: "Monthly") {
                 //Button Action
-                withAnimation {
-                    selectedPeriod = .Monthly
-                }
+                changePeriod(to: .Monthly)
                 
             }
             
@@ -84,16 +81,12 @@ struct DashboardView: View {
         
     }
     
-    private func filteredHealthData() -> [String: HealthData] {
-        switch selectedPeriod {
-        case .Daily:
-            return manager.healthData.filter { $0.key.contains("today") }
-        case .Weekly:
-            return manager.healthData.filter { $0.key.contains("weekly") }
-        case .Monthly:
-            return manager.healthData.filter { $0.key.contains("monthly") }
+    private func changePeriod(to period: HealthPeriod) {
+            withAnimation {
+                selectedPeriod = period
+            }
         }
-    }
+    
     
 }
 

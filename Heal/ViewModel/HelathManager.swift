@@ -19,6 +19,12 @@ class HealthManager: ObservableObject {
     @Published var totalSteps: Double = 0
     @Published var totalDistance: Double = 0
     
+    @Published var heightData: HeightData?
+    @Published var weightData: WeightData?
+    @Published var bmiData: BMI?
+    @Published var bloodTypeData: BloodTypeData?
+    @Published var gender: Gender?
+    
     
     init() {
         requestAuthorization()
@@ -30,13 +36,25 @@ class HealthManager: ObservableObject {
         let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)!
         let calories = HKQuantityType(.activeEnergyBurned)
         let heartRate = HKQuantityType(.heartRate)
-        let readDataTypes: Set<HKObjectType> = [stepCountType, distanceType, calories, heartRate]
+        let heightType = HKQuantityType(.height)
+        let bodyMassType = HKQuantityType(.bodyMass)
+        let readDataTypes: Set<HKObjectType> = [
+            stepCountType,
+            distanceType,
+            calories,
+            heartRate
+//            heightType,
+//            bodyMassType,
+//            HKObjectType.characteristicType(forIdentifier: .bloodType)!,
+//            HKObjectType.characteristicType(forIdentifier: .biologicalSex)!
+        ]
         
         healthStore.requestAuthorization(toShare: nil, read: readDataTypes) { [weak self] success, error in
             if success {
                 self?.fetchTodayData()
                 self?.fetchWeeklyData()
                 self?.fetchMonthlyData()
+//                self?.fetchUserCharacteristics()
             } else {
                 print("Authorization failed with error: \(String(describing: error))")
             }
@@ -59,7 +77,7 @@ class HealthManager: ObservableObject {
         fetchSteps(startDate: .startOfWeek, endDate: Date(), key: "WeeklySteps")
         fetchCalories(startDate: .startOfWeek, endDate: Date(), key: "WeeklyCalories")
         fetchDistance(startDate: .startOfWeek, endDate: Date(), key: "WeeklyDistance")
-        fetchHeartRate(startDate: .startOfToday, endDate: Date(), key: "WeeklyHeartRate")
+        fetchHeartRate(startDate: .startOfWeek, endDate: Date(), key: "WeeklyHeartRate")
         
 //        DispatchQueue.main.async {
 //            self.healthData = self.healthData.filter { $0.key.contains("weekly") }
@@ -70,7 +88,7 @@ class HealthManager: ObservableObject {
         fetchSteps(startDate: .startOfMonth, endDate: Date(), key: "MonthlySteps")
         fetchCalories(startDate: .startOfMonth, endDate: Date(), key: "MonthlyCalories")
         fetchDistance(startDate: .startOfMonth, endDate: Date(), key: "MonthlyDistance")
-        fetchHeartRate(startDate: .startOfToday, endDate: Date(), key: "MonthlyHeartRate")
+        fetchHeartRate(startDate: .startOfMonth, endDate: Date(), key: "MonthlyHeartRate")
         
 //        DispatchQueue.main.async {
 //            self.healthData = self.healthData.filter { $0.key.contains("monthly") }
@@ -84,7 +102,7 @@ class HealthManager: ObservableObject {
         
          let query = HKStatisticsQuery(quantityType: stepCountType , quantitySamplePredicate: predicate) { _, results, error in
             guard let quantity = results?.sumQuantity(), error == nil else {
-                print("Error fetching steps data")
+                print("Error fetching steps data at date \(startDate) error: \(String(describing: error))")
                 return
             }
             
@@ -104,12 +122,14 @@ class HealthManager: ObservableObject {
         let query = HKStatisticsQuery(quantityType: calories, quantitySamplePredicate: predicate) { _, result, error in
             
             guard let quantity = result?.sumQuantity(), error == nil else {
-                print("Error fetching calories data")
+                print("Error fetching calories data at date \(startDate) error: \(String(describing: error))")
                 return
             }
             
             let coloriesBurned = quantity.doubleValue(for: .kilocalorie())
             let data = HealthData(id: UUID(), type: .calories, value: "\(Int(coloriesBurned))")
+            
+            print("Calories: \(Int(coloriesBurned)) at date : \(startDate)")
             
             DispatchQueue.main.async  {
                 self.healthData[key] = data
@@ -134,7 +154,7 @@ class HealthManager: ObservableObject {
                 let distance = quantity.doubleValue(for: .meter())
                 let data = HealthData(id: UUID(), type: .distance, value: "\(distance.formattedKilometers())")
                 
-                print(distance.formattedKilometers())
+                print("Distance: \(distance.formattedKilometers()) at date \(startDate)")
                 
                 DispatchQueue.main.async {
                     self.healthData[key] = data
@@ -151,7 +171,7 @@ class HealthManager: ObservableObject {
         let sortDiscr = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
         let query = HKSampleQuery(sampleType: heartRate, predicate: predicate, limit: Int(HKObjectQueryNoLimit), sortDescriptors: [sortDiscr]) { _, result, error in
             guard let quantity = result,  error == nil else {
-                print("Error fetching heart rate \(error.debugDescription)")
+                print("Error fetching heart rate at date \(startDate) error: \(String(describing: error))")
                 return
             }
             if quantity.isEmpty {
@@ -177,41 +197,78 @@ class HealthManager: ObservableObject {
         healthStore.execute(query)
     }
     
-}
-
-
-extension Double {
-    
-    func formattedCalories() -> String {
-        String(format: "%.2f", self)
-    }
-    
-    /// Converts the distance in meters to kilometers and returns it as a formatted string.
-    func formattedKilometers() -> String {
-        let kilometers = self / 1000
-        return String(format: "%.2f", kilometers)
-    }
-    
-    func formatedString() -> String {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        numberFormatter.minimumFractionDigits = 0
+    func fetchUserCharacteristics() {
+            fetchBiologicalSex()
+            fetchBloodType()
+            fetchMostRecentSample(for: HKQuantityType.quantityType(forIdentifier: .height)!) { height in
+                if let height = height {
+                    let heightData = HealthData(id: UUID(), type: .height, value: "\(height.formatedString())")
+                    DispatchQueue.main.async {
+                        self.healthData["Height"] = heightData
+                    }
+                }
+            }
+            fetchMostRecentSample(for: HKQuantityType.quantityType(forIdentifier: .bodyMass)!) { weight in
+                if let weight = weight {
+                    let weightData = HealthData(id: UUID(), type: .weight, value: "\(weight.formatedString())")
+                    DispatchQueue.main.async {
+                        self.healthData["Weight"] = weightData
+                    }
+                    if let height = self.healthData["Height"]?.value, let heightValue = Double(height) {
+                        let bmiValue = weight / (heightValue * heightValue)
+                        let bmiData = HealthData(id: UUID(), type: .bmi, value: "\(bmiValue.formatedString())")
+                        DispatchQueue.main.async {
+                            self.healthData["BMI"] = bmiData
+                        }
+                    }
+                }
+            }
         
-        return numberFormatter.string(from: NSNumber(value: self))!
-    }
+        }
+        
+        private func fetchBiologicalSex() {
+            do {
+                let biologicalSexObject = try healthStore.biologicalSex()
+                let biologicalSexData = HealthData(id: UUID(), type: .biologicalSex, value: biologicalSexObject.biologicalSex.stringRepresentation)
+                DispatchQueue.main.async {
+                    self.healthData["BiologicalSex"] = biologicalSexData
+                }
+            } catch {
+                print("Failed to fetch biological sex with error: \(error)")
+            }
+        }
+        
+        private func fetchBloodType() {
+            do {
+                let bloodTypeObject = try healthStore.bloodType()
+                let bloodTypeData = HealthData(id: UUID(), type: .bloodType, value: bloodTypeObject.bloodType.stringRepresentation)
+                DispatchQueue.main.async {
+                    self.healthData["BloodType"] = bloodTypeData
+                }
+            } catch {
+                print("Failed to fetch blood type with error: \(error)")
+            }
+        }
+        
+        private func fetchMostRecentSample(for sampleType: HKSampleType, completion: @escaping (Double?) -> Void) {
+            let predicate = HKQuery.predicateForSamples(withStart: Date.distantPast, end: Date(), options: .strictEndDate)
+            let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
+            
+            let query = HKSampleQuery(sampleType: sampleType, predicate: predicate, limit: 1, sortDescriptors: [sortDescriptor]) { _, result, error in
+                if let error = error {
+                    print("Error fetching sample \(sampleType): \(error.localizedDescription)")
+                    completion(nil)
+                } else if let result = result?.first as? HKQuantitySample {
+                    let unit = sampleType == HKQuantityType.quantityType(forIdentifier: .height) ? HKUnit.meter() : HKUnit.gram()
+                    completion(result.quantity.doubleValue(for: unit))
+                } else {
+                    completion(nil)
+                }
+            }
+            healthStore.execute(query)
+        }
+    
 }
 
-extension Date {
-    static var startOfToday: Date {
-        Calendar.current.startOfDay(for: Date())
-    }
-    
-    static var startOfWeek: Date {
-        Calendar.current.date(from: Calendar.current.dateComponents([.yearForWeekOfYear, .weekOfYear], from: Date()))!
-    }
-    
-    static var startOfMonth: Date {
-        let components = Calendar.current.dateComponents([.year, .month], from: Date())
-        return Calendar.current.date(from: components)!
-    }
-}
+
+
