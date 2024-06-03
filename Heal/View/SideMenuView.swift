@@ -21,16 +21,15 @@ struct SideMenuView: View {
     @Binding var selectedTab: Tab
     
     @EnvironmentObject var authViewModel: AuthViewModel
+    @EnvironmentObject var coordinator: Coordinator
     
     var body: some View {
         
         GeometryReader { geomtry in
        
         ZStack(alignment: .topLeading) {
-            Color.clear
+            Color.black.opacity(showMenu ? 0.7 : 0)
                 .ignoresSafeArea()
-//            Color.black.opacity(showMenu ? 0.5 : 0)
-//                .ignoresSafeArea()
             
             HStack {
                 VStack(alignment: .leading, spacing: 10) {
@@ -63,6 +62,7 @@ struct SideMenuView: View {
                                         }
                                         if tab.rawValue == "Logout" {
                                             authViewModel.signOut()
+                                            coordinator.dismissFullScreen()
                                         }
                                         
                                     }
@@ -79,6 +79,7 @@ struct SideMenuView: View {
             .background(
                 showMenu ? LinearGradient(colors: [Colors.startColor.color(), Colors.endColor.color()], startPoint: .topLeading, endPoint: .bottomTrailing)
                 : nil
+//                Colors.startColor.color()
             )
             .clipShape(.rect(cornerRadius: 15))
             

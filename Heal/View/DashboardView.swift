@@ -44,7 +44,7 @@ struct DashboardView: View {
                 ForEach(manager.healthData.filter { $0.key.contains(selectedPeriod.rawValue) }.sorted(by: { $0.value.id  < $1.value.id }), id: \.key) { item in
                     CardView(healthDataModel: item.value)
                         .transition(.opacity)
-                        .animation(.easeInOut(duration: 0.2), value: selectedPeriod)
+                        .animation(.spring(duration: 0.1), value: selectedPeriod)
                 }
                 
                 
@@ -52,7 +52,7 @@ struct DashboardView: View {
             .padding()
             
         }
-        .background( showMenu ? .black.opacity(0.3) : .clear)
+        .background( showMenu ? .black : .clear)
         
     }
     
@@ -72,7 +72,6 @@ struct DashboardView: View {
             }
             Spacer()
             CustomButton(title: "Monthly") {
-                //Button Action
                 changePeriod(to: .Monthly)
                 
             }

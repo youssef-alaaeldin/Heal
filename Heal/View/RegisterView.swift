@@ -15,15 +15,17 @@ struct RegisterView: View {
     @FocusState private var nameIsFocused: Bool
     
     @State private var isSignInScreen = false
+    @State private var creatingUser = false // State to track if creating user
+    @State private var signingIn = false // State to track if signing in
     
     @EnvironmentObject private var coordinator: Coordinator
     @EnvironmentObject private var authViewModel : AuthViewModel
     
     
     var body: some View {
-        if authViewModel.userSession != nil {
-            HomeView()
-        } else {
+//        if authViewModel.userSession != nil {
+//            HomeView()
+//        } else {
             ScrollView {
                 
                 ZStack {
@@ -38,10 +40,16 @@ struct RegisterView: View {
                         }
                     content
                     
+                    if creatingUser || signingIn {
+                        ProgressView()
+                            .padding()
+                            .font(.system(size: 30))
+                    }
+                    
                 }
                 
             }
-        }
+//        }
     }
     
     var content: some View {
@@ -53,17 +61,18 @@ struct RegisterView: View {
             
             if !isSignInScreen {
                 CustomTF(value: $fullName , hint: "Full Name")
-                    .focused($nameIsFocused)
             }
-            CustomTF(value: $email , hint: "Email").focused($nameIsFocused)
-            CustomTF(value: $password , hint: "Password", isPassword: true).focused($nameIsFocused)
+            CustomTF(value: $email , hint: "Email")
+            CustomTF(value: $password , hint: "Password", isPassword: true)
             
             if !isSignInScreen {
                 signUpPolicy
             }
             
             VStack (alignment: .center) {
-                button
+                    button
+                    
+                
                 HStack(spacing: 0) {
                     Text( !isSignInScreen ? "Joined us before? " : "Didn't joined yet? ")
                         .font(.custom("Lato", size: 10))
@@ -122,6 +131,7 @@ struct RegisterView: View {
         Button(action: {
             if !isSignInScreen {
                 // SIGN UP
+                creatingUser = true
                 Task {
                     do {
                         try await authViewModel.createUser(withEmail: email, password: password, fullName: fullName)
@@ -129,13 +139,24 @@ struct RegisterView: View {
                     } catch {
                         print("Error creating user with error:  \(error.localizedDescription)")
                     }
+                    creatingUser = false
                 }
+                
             }
             else {
                 // LOGIN
+                signingIn = true
                 Task {
-                    try await authViewModel.signIn(withEmail: email, password: password)
+                    do {
+                        try await authViewModel.signIn(withEmail: email, password: password)
+                        	
+                        coordinator.present(fullScreenCover: .home)
+                    } catch {
+                        print("Error signing in with error \(error.localizedDescription)")
+                    }
+                    signingIn = false
                 }
+                
             }
             
         }, label: {
@@ -146,6 +167,10 @@ struct RegisterView: View {
         .background(Colors.buttonColor.color())
         .foregroundColor(.white)
         .clipShape(RoundedRectangle(cornerRadius: 6))
+        .focused($nameIsFocused)
+        .disabled(!isFormValid)
+        .opacity(isFormValid ? 1 : 0.5)
+        
     }
     
     var signUpPolicy : some View {
@@ -168,6 +193,25 @@ struct RegisterView: View {
             }
         }
         .padding(.horizontal, 10)
+    }
+    
+    
+}
+
+extension RegisterView: AuthFormValidation {
+    var isFormValid: Bool {
+        if !isSignInScreen {
+            return !email.isEmpty
+            && email.contains("@")
+            && !password.isEmpty
+            && !fullName.isEmpty
+            && password.count > 5
+        }
+        
+        return !email.isEmpty
+        && email.contains("@")
+        && !password.isEmpty
+        && password.count > 5
     }
     
     

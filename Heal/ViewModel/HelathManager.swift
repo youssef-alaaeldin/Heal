@@ -107,7 +107,7 @@ class HealthManager: ObservableObject {
             }
             
              let stepCount = quantity.doubleValue(for: .count())
-             let data = HealthData(id: UUID(), type: .steps, value: "\(stepCount.formatedString())")
+             let data = HealthData(id: UUID(), type: .steps, value: "\(Int(stepCount))")
              DispatchQueue.main.async {
                  self.healthData[key] = data
              }

@@ -29,15 +29,18 @@ struct CardView: View {
                                 Text(healthDataModel.value)
                                     .font(.title)
                                     .bold()
+                                    .foregroundStyle(.primary)
                             
                             Text(healthDataModel.type.unit)
                                 .font(.system(size: 13))
                                 .bold()
+                                .foregroundStyle(.secondary)
                         }
                         
                         
                         Text(healthDataModel.type.subtitle)
                             .font(.system(size: 13, weight: .thin))
+                            .foregroundStyle(.secondary)
                     }
                     .padding(.bottom, 60)
                 }

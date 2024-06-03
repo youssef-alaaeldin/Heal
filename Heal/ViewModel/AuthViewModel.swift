@@ -10,11 +10,18 @@ import Firebase
 import FirebaseFirestore
 
 
+
+protocol AuthFormValidation {
+    var isFormValid: Bool { get }
+}
+
 @MainActor
 class AuthViewModel: ObservableObject {
     
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
+    
+    
     
     init() {
         self.userSession = Auth.auth().currentUser
@@ -25,11 +32,17 @@ class AuthViewModel: ObservableObject {
     }
     
     func signIn(withEmail email: String, password: String) async throws {
-        print("Sign in...")
+        
+        do {
+            let result = try await Auth.auth().signIn(withEmail: email, password: password)
+            self.userSession = result.user
+            await fetchUser()
+        } catch {
+            throw error
+        }
     }
     
     func createUser(withEmail email: String, password: String, fullName: String) async throws {
-        print("Sign up...")
         
         do {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
