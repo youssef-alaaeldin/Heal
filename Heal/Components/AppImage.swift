@@ -22,6 +22,7 @@ enum AppImage: String {
     case profilePicGirl
     case standingGirl
     case heart
+    case confetti
     
     func image() -> Image {
         return Image(self.rawValue)

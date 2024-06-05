@@ -28,8 +28,8 @@ struct HomeView: View {
                         ProfileView()
                             .tag(Tab.Profile)
 //                            .padding(100)
-    //                    RewardsView()
-    //                        .tag(Tab.Rewards)
+                        RewardsView()
+                            .tag(Tab.Rewards)
                     }
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 }
@@ -37,6 +37,7 @@ struct HomeView: View {
             .navigationBarBackButtonHidden(true)
             
             SideMenuView(showMenu: $showMenu, selectedTab: $selectedTab)
+                .zIndex(1)
             
             HStack(alignment: .top) {
                 Spacer()

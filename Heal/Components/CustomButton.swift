@@ -15,9 +15,6 @@ struct CustomButton: View {
     
     var body: some View {
         
-        
-
-        
         Button(action: action) {
             Text(title)
         }
@@ -25,7 +22,7 @@ struct CustomButton: View {
         .background {
             LinearGradient(colors: [Colors.startColor.color(), Colors.endColor.color()], startPoint: .topLeading, endPoint: .bottomTrailing)
         }
-        .foregroundStyle(.black)
+        .foregroundStyle(.primary)
         .clipShape(RoundedRectangle(cornerRadius: 8))
         
         

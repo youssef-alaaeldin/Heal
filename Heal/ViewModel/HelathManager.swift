@@ -18,6 +18,7 @@ class HealthManager: ObservableObject {
     @Published var healthData: [String: HealthData] = [:]
     @Published var totalSteps: Double = 0
     @Published var totalDistance: Double = 0
+    @Published var goalAchieved = false
     
     @Published var heightData: HeightData?
     @Published var weightData: WeightData?
@@ -25,6 +26,7 @@ class HealthManager: ObservableObject {
     @Published var bloodTypeData: BloodTypeData?
     @Published var gender: Gender?
     
+    let dailyStepsGoal: Double = 300
     
     init() {
         requestAuthorization()
@@ -67,10 +69,6 @@ class HealthManager: ObservableObject {
         fetchCalories(startDate: .startOfToday, endDate: Date(), key: "DailyCalories")
         fetchDistance(startDate: .startOfToday, endDate: Date(), key: "DailyDistance")
         fetchHeartRate(startDate: .startOfToday, endDate: Date(), key: "DailyHeartRate")
-//
-//        DispatchQueue.main.async {
-//            self.healthData = self.healthData.filter { $0.key.contains("today") }
-//        }
     }
     
     func fetchWeeklyData() {
@@ -78,10 +76,6 @@ class HealthManager: ObservableObject {
         fetchCalories(startDate: .startOfWeek, endDate: Date(), key: "WeeklyCalories")
         fetchDistance(startDate: .startOfWeek, endDate: Date(), key: "WeeklyDistance")
         fetchHeartRate(startDate: .startOfWeek, endDate: Date(), key: "WeeklyHeartRate")
-        
-//        DispatchQueue.main.async {
-//            self.healthData = self.healthData.filter { $0.key.contains("weekly") }
-//        }
     }
     
     func fetchMonthlyData() {
@@ -110,6 +104,10 @@ class HealthManager: ObservableObject {
              let data = HealthData(id: UUID(), type: .steps, value: "\(Int(stepCount))")
              DispatchQueue.main.async {
                  self.healthData[key] = data
+                 if startDate == .startOfToday {
+                     self.totalSteps = stepCount
+                 }
+                 self.checkGoalAchievement()
              }
             
         }
@@ -269,6 +267,24 @@ class HealthManager: ObservableObject {
             healthStore.execute(query)
         }
     
+    
+    private func setupDailyGoalReset() {
+            let midnight = Calendar.current.startOfDay(for: Date().addingTimeInterval(86400))
+            let timer = Timer(fireAt: midnight, interval: 86400, target: self, selector: #selector(resetDailyGoal), userInfo: nil, repeats: true)
+            RunLoop.main.add(timer, forMode: .default)
+        }
+        
+        @objc private func resetDailyGoal() {
+            self.totalSteps = 0
+            self.goalAchieved = false
+            fetchTodayData()
+        }
+        
+        private func checkGoalAchievement() {
+            if totalSteps >= dailyStepsGoal && !goalAchieved {
+                goalAchieved = true
+            }
+        }
 }
 
 

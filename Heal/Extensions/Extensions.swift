@@ -94,3 +94,10 @@ extension HKBloodType {
         }
     }
 }
+
+extension String {
+    func extractFirstName() -> String {
+        let components = self.split(separator: " ")
+        return components.first.map(String.init) ?? ""
+    }
+}

@@ -28,7 +28,7 @@ struct SideMenuView: View {
         GeometryReader { geomtry in
        
         ZStack(alignment: .topLeading) {
-            Color.black.opacity(showMenu ? 0.7 : 0)
+            Color.black.opacity(showMenu ? 0.9 : 0)
                 .ignoresSafeArea()
             
             HStack {
@@ -82,7 +82,6 @@ struct SideMenuView: View {
 //                Colors.startColor.color()
             )
             .clipShape(.rect(cornerRadius: 15))
-            
             
             
             }
