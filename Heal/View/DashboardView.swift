@@ -16,6 +16,7 @@ struct DashboardView: View {
     
     @EnvironmentObject var manager: HealthManager
     @EnvironmentObject var authViewModel: AuthViewModel
+    
     var body: some View {
         
         
@@ -31,7 +32,8 @@ struct DashboardView: View {
                 .font(.system(size: 25))
                 .padding()
                 
-                buttons
+//                buttons
+                CustomButton(selectedChoice: $selectedPeriod)
                 
             }
             
@@ -56,42 +58,10 @@ struct DashboardView: View {
         
     }
     
-    var buttons : some View {
-        
-        HStack(alignment: .center) {
-            CustomButton(title: "Daily") {
-                //Button Action
-                changePeriod(to: .Daily)
-            }
-            
-            Spacer()
-            
-            CustomButton(title: "Weekly") {
-                //Button Action
-                changePeriod(to: .Weekly)
-            }
-            Spacer()
-            CustomButton(title: "Monthly") {
-                changePeriod(to: .Monthly)
-                
-            }
-            
-        }
-        .padding()
-        
-    }
-    
-    private func changePeriod(to period: HealthPeriod) {
-        print(manager.healthData)
-            withAnimation {
-                selectedPeriod = period
-            }
-        }
-    
     
 }
 
-enum HealthPeriod: String {
+enum HealthPeriod: String, CaseIterable {
     case Daily, Weekly, Monthly
 }
 
