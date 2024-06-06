@@ -307,11 +307,11 @@ class HealthManager: ObservableObject {
     func standingProgress(for period: HealthPeriod) -> Double {
         switch period {
         case .Daily:
-            return min(standingTimeDaily / standingGoal * 100, 100) * 10
+            return min(standingTimeDaily / standingGoal * 100, 100)
         case .Weekly:
-            return min(standingTimeWeekly / (standingGoal * 7) * 100, 100) * 10
+            return min(standingTimeWeekly / (standingGoal * 7) * 100, 100)
         case .Monthly:
-            return min(standingTimeMonthly / (standingGoal * 30) * 100, 100) * 10
+            return min(standingTimeMonthly / (standingGoal * 30) * 100, 100)
         }
     }
     
