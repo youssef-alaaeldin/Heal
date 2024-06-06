@@ -10,9 +10,9 @@ Heal is a health-tracking application built using SwiftUI. It leverages HealthKi
 - **User-Friendly Interface**: Designed with SwiftUI to provide a seamless and engaging user experience.
 
 ## Screenshots
-| ![1](Media/1.PNG) | ![2](Media/2.PNG) | ![3](Media/3.PNG) |
+| ![1](Media/6.PNG) | ![2](Media/5.PNG) | ![3](Media/4.PNG) |
 | --- | --- | --- |
-| ![4](Media/4.PNG) | ![5](Media/5.PNG) | ![6](Media/6.PNG) |
+| ![4](Media/3.PNG) | ![5](Media/2.PNG) | ![6](Media/1.PNG) |
 
 ## Technologies Used
 
