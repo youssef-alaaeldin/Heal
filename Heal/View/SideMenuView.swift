@@ -23,6 +23,7 @@ struct SideMenuView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @EnvironmentObject var coordinator: Coordinator
     
+    @State var showAlert = false
     var body: some View {
         
         GeometryReader { geomtry in
@@ -60,12 +61,13 @@ struct SideMenuView: View {
                                         withAnimation {
                                             selectedTab = tab
                                         }
-                                        if tab.rawValue == "Logout" {
-                                            authViewModel.signOut()
-                                            coordinator.dismissFullScreen()
+                                        if tab == .Logout {
+                                            showAlert = true
+                                            
                                         }
                                         
                                     }
+                                    
                             }
                         }
                     }
@@ -85,10 +87,24 @@ struct SideMenuView: View {
             
             
             }
-//            .frame(width: geomtry.size.width / 2, height: geomtry.size.height )
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Confirm Logout"),
+                message: Text("Are you sure you want to log out?"),
+                primaryButton: .destructive(Text("Logout")) {
+                    authViewModel.signOut()
+                    coordinator.dismissFullScreen()
+                },
+                secondaryButton: .cancel()
+            )
         }
         
+        
     }
+    
+        
+        
 }
 
 #Preview {

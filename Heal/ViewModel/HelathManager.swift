@@ -19,14 +19,19 @@ class HealthManager: ObservableObject {
     @Published var totalSteps: Double = 0
     @Published var totalDistance: Double = 0
     @Published var goalAchieved = false
+    @Published var standingTimeDaily: Double = 0
     
-    @Published var heightData: HeightData?
-    @Published var weightData: WeightData?
-    @Published var bmiData: BMI?
-    @Published var bloodTypeData: BloodTypeData?
-    @Published var gender: Gender?
+    @Published var standingTimeWeekly: Double = 0
     
-    let dailyStepsGoal: Double = 300
+    @Published var standingTimeMonthly: Double = 0
+    
+    @Published var standingGoal: Double = 12 // Example goal: 12 hours
+        
+        // Existing methods...
+
+        
+    
+    let dailyStepsGoal: Double = 10000
     
     init() {
         requestAuthorization()
@@ -40,6 +45,7 @@ class HealthManager: ObservableObject {
         let heartRate = HKQuantityType(.heartRate)
         let heightType = HKQuantityType(.height)
         let bodyMassType = HKQuantityType(.bodyMass)
+        let standHourType = HKQuantityType(.appleStandTime)
         let readDataTypes: Set<HKObjectType> = [
             stepCountType,
             distanceType,
@@ -47,6 +53,7 @@ class HealthManager: ObservableObject {
             heartRate,
             heightType,
             bodyMassType,
+            standHourType,
             HKObjectType.characteristicType(forIdentifier: .bloodType)!,
             HKObjectType.characteristicType(forIdentifier: .biologicalSex)!
         ]
@@ -69,6 +76,7 @@ class HealthManager: ObservableObject {
         fetchCalories(startDate: .startOfToday, endDate: Date(), key: "DailyCalories")
         fetchDistance(startDate: .startOfToday, endDate: Date(), key: "DailyDistance")
         fetchHeartRate(startDate: .startOfToday, endDate: Date(), key: "DailyHeartRate")
+        fetchStandHours(startDate: .startOfToday, endDate: Date(), key: "DailyStanding")
     }
     
     func fetchWeeklyData() {
@@ -76,6 +84,7 @@ class HealthManager: ObservableObject {
         fetchCalories(startDate: .startOfWeek, endDate: Date(), key: "WeeklyCalories")
         fetchDistance(startDate: .startOfWeek, endDate: Date(), key: "WeeklyDistance")
         fetchHeartRate(startDate: .startOfWeek, endDate: Date(), key: "WeeklyHeartRate")
+        fetchStandHours(startDate: .startOfWeek, endDate: Date(), key: "WeeklyStanding")
     }
     
     func fetchMonthlyData() {
@@ -83,6 +92,7 @@ class HealthManager: ObservableObject {
         fetchCalories(startDate: .startOfMonth, endDate: Date(), key: "MonthlyCalories")
         fetchDistance(startDate: .startOfMonth, endDate: Date(), key: "MonthlyDistance")
         fetchHeartRate(startDate: .startOfMonth, endDate: Date(), key: "MonthlyHeartRate")
+        fetchStandHours(startDate: .startOfMonth, endDate: Date(), key: "MonthlyStanding")
         
 //        DispatchQueue.main.async {
 //            self.healthData = self.healthData.filter { $0.key.contains("monthly") }
@@ -266,6 +276,44 @@ class HealthManager: ObservableObject {
             }
             healthStore.execute(query)
         }
+    
+    func fetchStandHours(startDate: Date, endDate: Date, key: String) {
+        let standHourType = HKQuantityType(.appleStandTime)
+            let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate)
+            let query = HKStatisticsQuery(quantityType: standHourType, quantitySamplePredicate: predicate) { _, result, error in
+                guard let quantity = result?.sumQuantity(), error == nil else {
+                    print("Error fetching stand hours data at date \(startDate) error: \(String(describing: error))")
+                    return
+                }
+                
+                
+                let standHours = quantity.doubleValue(for: .hour())
+                print(standHours)
+                DispatchQueue.main.async {
+                    if startDate == .startOfToday {
+                        self.standingTimeDaily = standHours
+                    }
+                    if startDate == .startOfWeek {
+                        self.standingTimeWeekly = standHours
+                    }
+                    if startDate == .startOfMonth {
+                        self.standingTimeMonthly = standHours
+                    }
+                }
+            }
+            healthStore.execute(query)
+        }
+    
+    func standingProgress(for period: HealthPeriod) -> Double {
+        switch period {
+        case .Daily:
+            return min(standingTimeDaily / standingGoal * 100, 100) * 10
+        case .Weekly:
+            return min(standingTimeWeekly / (standingGoal * 7) * 100, 100) * 10
+        case .Monthly:
+            return min(standingTimeMonthly / (standingGoal * 30) * 100, 100) * 10
+        }
+    }
     
     
     private func setupDailyGoalReset() {

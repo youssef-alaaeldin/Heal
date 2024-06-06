@@ -26,7 +26,7 @@ struct CustomButton: View {
                         Image(.smallEclipse)
                             .resizable()
                             .frame(width: 100, height: 100)
-                            .opacity(selectedChoice == period ? 0.5 : 0)
+                            .opacity(selectedChoice == period ? 0.8 : 0)
                             .blendMode(.hardLight)
                         if period == .Daily {
                             Text("Daily")

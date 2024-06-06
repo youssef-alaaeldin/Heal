@@ -37,7 +37,7 @@ struct DashboardView: View {
                 
             }
             
-            SleepingAnalysisView()
+            SleepingAnalysisView(selectedPeriod: $selectedPeriod)
             
             Spacer()
             

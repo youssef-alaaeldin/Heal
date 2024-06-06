@@ -34,23 +34,15 @@ struct RewardsView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 210)
-                        
-                        
-    //
-                        
                     }
                     .padding()
                     .frame(width: 273, height: 273)
-                    //            .background(.black)
                     
                     VStack(alignment: .center){
                         Text("Congratulations!")
                             .font(.system(size: 32, weight: .medium))
                     }
                     .padding()
-                    
-//                    Spacer()
-    //                .padding(.top, 10)
                     
                     RewardsCard(totalSteps: healthManager.totalSteps)
                 }
@@ -59,6 +51,10 @@ struct RewardsView: View {
         }
         else {
             VStack {
+                AppImage.lazyMan.image()
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 250)
                 Text("Keep going to achieve your daliy steps !")
                 Text("Your goal is \(Int(healthManager.dailyStepsGoal)) steps")
                     .bold()

@@ -24,6 +24,8 @@ enum AppImage: String {
     case heart
     case confetti
     
+    case standingMan, yogaMan, runningMan, lazyMan, holdingMapMan, profilePicMan
+    
     func image() -> Image {
         return Image(self.rawValue)
     }

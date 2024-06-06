@@ -11,7 +11,7 @@ struct CircularProgressView: View {
     @State var animatedProgress : Double = 0.0
     @State var animatedTextProgress: Double = 0.0
     
-    var progress: Double
+    @Binding var progress: Double
     private let frameHeight : CGFloat = 130
     private let frameWidth : CGFloat = 130
     private let animationDuration: Double = 1.0
@@ -44,6 +44,9 @@ struct CircularProgressView: View {
             .onAppear {
                 startAnimation()
             }
+            .onChange(of: progress, { oldValue, newValue in
+                startAnimation()
+            })
             .onDisappear {
                 animatedProgress = 0.0
             }
@@ -66,6 +69,6 @@ struct CircularProgressView: View {
     }
 }
 
-#Preview {
-    CircularProgressView(progress: 80.4)
-}
+//#Preview {
+//    CircularProgressView(progress: 80.4)
+//}

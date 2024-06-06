@@ -27,7 +27,7 @@ struct ProfileView: View {
                             .padding(9)
                             .frame(width: 273, height: 273)
                         
-                        Image(.profilePicGirl)
+                        Image(.profilePicMan)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 210)
