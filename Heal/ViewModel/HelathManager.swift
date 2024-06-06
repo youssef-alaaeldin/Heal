@@ -31,7 +31,7 @@ class HealthManager: ObservableObject {
 
         
     
-    let dailyStepsGoal: Double = 10000
+    let dailyStepsGoal: Double = 1000
     
     init() {
         requestAuthorization()
